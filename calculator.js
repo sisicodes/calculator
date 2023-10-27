@@ -1,6 +1,8 @@
-let num1
-let num2
-let op
+let num1;
+let num2;
+let op;
+let display = document.querySelector('.display');
+let displayValue;
 
 function add(num1,num2) {
     return num1 + num2;
@@ -33,3 +35,23 @@ function operate(num1,num2,op) {
 }
 
 
+
+
+function updateDisplay(displayValue) {
+    display.textContent = displayValue;
+};
+
+
+let btns = document.querySelectorAll(".input");
+btns.forEach(btn => {
+    btn.addEventListener('click', function() {
+        displayValue += btn.textContent;
+        updateDisplay(displayValue);
+    });
+});
+
+let clear = document.querySelector('#clear');
+clear.addEventListener('click', function() {
+    displayValue = ''
+    updateDisplay(displayValue);
+})
