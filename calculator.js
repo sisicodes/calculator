@@ -42,16 +42,28 @@ function updateDisplay(displayValue) {
 };
 
 
+
+let opArray = ['+', '-', 'x', '/']
+let clear = document.querySelector('#clear');
+clear.addEventListener('click', function() {
+    displayValue = '';
+    updateDisplay(displayValue);
+});
+
+
 let btns = document.querySelectorAll(".input");
 btns.forEach(btn => {
     btn.addEventListener('click', function() {
+        displayArray = displayValue.split('');
+        if (displayArray.length>=12) {
+            return;
+        };
+        
+
+
+
+
         displayValue += btn.textContent;
         updateDisplay(displayValue);
     });
 });
-
-let clear = document.querySelector('#clear');
-clear.addEventListener('click', function() {
-    displayValue = ''
-    updateDisplay(displayValue);
-})
