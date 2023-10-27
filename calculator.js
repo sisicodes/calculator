@@ -3,6 +3,7 @@ let num2;
 let op;
 let display = document.querySelector('.display');
 let displayValue = '';
+let displayArray;
 
 function add(num1,num2) {
     return num1 + num2;
@@ -53,8 +54,6 @@ function getOperationVars(array) {
 }
 
 
-
-
 function updateDisplay(displayValue) {
     display.textContent = displayValue;
 };
@@ -69,7 +68,19 @@ clear.addEventListener('click', function() {
     updateDisplay(displayValue);
 });
 
-let displayArray
+let equal = document.querySelector('#equal');
+equal.addEventListener('click', function() {
+    displayArray = displayValue.split('');
+    let evalArray = getOperationVars(displayArray);
+    let result = operate(evalArray[0], evalArray[1], evalArray[2]);
+    let resultString = result.toString();
+    displayValue = resultString;
+    updateDisplay(displayValue);
+    return;
+
+});
+
+
 let btns = document.querySelectorAll(".input");
 btns.forEach(btn => {
     btn.addEventListener('click', function() {
