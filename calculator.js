@@ -19,6 +19,9 @@ function multiply(num1,num2) {
 
 function divide(num1,num2) {
     let decimalPlaces = 2;
+    if (num2==0) {
+        return 'silly'
+    }
     return Math.round(num1*(10**decimalPlaces)/num2)/(10**decimalPlaces);
 }
 
@@ -41,6 +44,10 @@ function getOperationVars(array) {
     let num2 = '';
     let op = '';
     const numRegex = /\d/
+    if (array[0]=='-') {
+        i = 1;
+        num1 = '-';
+    }
     while (numRegex.test(array[i])) {
         num1= num1.concat(array[i]);
         ++i;
@@ -48,6 +55,8 @@ function getOperationVars(array) {
     num1 = parseInt(num1);
     op = array[i];
     num2 = array.slice(i+1);
+    num2 = num2.join('');
+    console.log(`num2 is ${num2}`);
     num2 = parseInt(num2);
     return [num1,num2,op];
 
@@ -99,6 +108,13 @@ btns.forEach(btn => {
                 displayArray = displayValue.split('');
                 return;
             } else {
+                if (displayArray[0] == '-') {
+                    let displayValue =display.textContent;
+                    displayValue+=btn.textContent;
+                    updateDisplay(displayValue);
+                    displayArray = displayValue.split('');
+                    return;
+                };
                 let evalArray = getOperationVars(displayArray);
                 let result = operate(evalArray[0], evalArray[1], evalArray[2]);
                 let resultString = result.toString();
