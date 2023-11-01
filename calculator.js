@@ -43,21 +43,22 @@ function getOperationVars(array) {
     let num1 = '';
     let num2 = '';
     let op = '';
-    const numRegex = /\d/
+    const numRegex = /[0-9]+/
+    const perRegex = /\./
     if (array[0]=='-') {
         i = 1;
         num1 = '-';
     }
-    while (numRegex.test(array[i])) {
+    while (numRegex.test(array[i]) || perRegex.test(array[i])) {
         num1= num1.concat(array[i]);
         ++i;
     };
-    num1 = parseInt(num1);
+    num1 = Number(num1);
     op = array[i];
     num2 = array.slice(i+1);
     num2 = num2.join('');
     console.log(`num2 is ${num2}`);
-    num2 = parseInt(num2);
+    num2 = Number(num2);
     return [num1,num2,op];
 
 }
@@ -70,16 +71,27 @@ function updateDisplay(displayValue) {
 
 
 let opArray = ['+', '-', 'x', '/'];
-const opRegex = /\D+/;
+const opRegex = /\++\/+\x+/;
 let clear = document.querySelector('#clear');
 clear.addEventListener('click', function() {
     displayValue = '';
     updateDisplay(displayValue);
 });
-
 let equal = document.querySelector('#equal');
 equal.addEventListener('click', function() {
+    const numRegex = /[0-9]+/
     displayArray = displayValue.split('');
+    console.log(`displayValue at equals is ${displayValue}`)
+    if (displayArray.length==0) {
+        return;
+    } else if (opArray.includes(displayArray.slice(-1)[0])) {
+        console.log('in here?')
+        return;
+    } else if (!isNaN(Number(displayValue))) {
+        console.log(`display value is ${Number(displayValue)}`)
+        console.log('in here 2?')
+        return;
+    };
     let evalArray = getOperationVars(displayArray);
     let result = operate(evalArray[0], evalArray[1], evalArray[2]);
     let resultString = result.toString();
@@ -102,7 +114,12 @@ btns.forEach(btn => {
             if (opArray.includes(displayArray.slice(-1)[0])) {
                 console.log('immediately after not allowed')
                 return;
+            } else if (displayArray.length==0){
+                return;
+
             } else if (!opRegex.test(displayValue)) {
+                console.log('entered opRegex')
+                console.log(`display value is ${displayValue}`)
                 displayValue += btn.textContent;
                 updateDisplay(displayValue);
                 displayArray = displayValue.split('');
