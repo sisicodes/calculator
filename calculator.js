@@ -75,13 +75,28 @@ function calculationHelper(array) {
     let result = operate(evalArray[0], evalArray[1], evalArray[2]);
     let resultString = result.toString();
     return resultString; 
-}
+};
 
 
 
 let clear = document.querySelector('#clear');
 clear.addEventListener('click', function() {
     displayValue = '';
+    updateDisplay(displayValue);
+});
+
+let del = document.querySelector('#del');
+del.addEventListener('click', function() {
+    displayArray=displayValue.split('');
+    if (displayArray.length==0) {
+        return;
+    } else if (errRegex.test(displayValue)) {
+        displayValue = '';
+        updateDisplay(displayValue);
+        return;
+    }
+    displayArray = displayArray.slice(0,displayArray.length-1);
+    displayValue = displayArray.join('');
     updateDisplay(displayValue);
 });
 
