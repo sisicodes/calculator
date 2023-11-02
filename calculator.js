@@ -5,6 +5,7 @@ const opArray = ['+', '-', 'x', '/'];
 const opRegex = /\++\/+\x+/;
 const numRegex = /[0-9]+/;
 const perRegex = /\./;
+const errRegex = /err+/;
 
 
 function add(num1,num2) {
@@ -90,6 +91,8 @@ equal.addEventListener('click', function() {
     displayArray = displayValue.split('');
     if (displayArray.length==0) {
         return;
+    } else if (errRegex.test(displayValue)) {
+        return;
     } else if (opArray.includes(displayArray.slice(-1)[0])) {
         return;
     } else if (!isNaN(Number(displayValue))) {
@@ -108,6 +111,8 @@ btns.forEach(btn => {
         displayValue = display.textContent;
         displayArray = displayValue.split('');
         if (displayArray.length>=12) {
+            return;
+        } else if (errRegex.test(displayValue)) {
             return;
         };
         if (opArray.includes(btn.textContent)) { 
